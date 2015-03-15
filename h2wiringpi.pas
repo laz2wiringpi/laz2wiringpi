@@ -239,7 +239,12 @@ const
          25,  28,
         -1,   29
       );
-
+ // FROM gipo.c for alts
+// static char *alts [] =
+//{
+//  "IN", "OUT", "ALT5", "ALT4", "ALT0", "ALT1", "ALT2", "ALT3"
+//} ;
+  altmodes : array[0..7] of string = ('IN', 'OUT', 'ALT5', 'ALT4', 'ALT0', 'ALT1', 'ALT2', 'ALT3');
 
     // Core wiringPi functions
 
@@ -330,6 +335,9 @@ Function physPinToGpio(physPin:longint):longint;cdecl;external;
 Procedure setPadDrive(group:longint; value:longint);cdecl;external;
 //extern int  getAlt              (int pin) ;
 Function getAlt(pin:longint):longint;cdecl;external;
+// from getalt to array of sting
+function getaltpintostr(pin : longint):string;
+
 //extern void pwmToneWrite        (int pin, int freq) ;
 Procedure pwmToneWrite(group:longint; freq:longint);cdecl;external;
 //extern void digitalWriteByte    (int value) ;
@@ -429,6 +437,9 @@ begin
 
 end;
 
+function getaltpintostr(pin : longint):string;
+begin
 
-
+  result := altmodes[ getAlt(pin) ];
+end;
 end.
