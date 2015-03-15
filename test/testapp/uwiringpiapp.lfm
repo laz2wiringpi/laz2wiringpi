@@ -5893,7 +5893,16 @@ object frmWiringpiapp: TfrmWiringpiapp
     BidiMode = bdRightToLeft
     Caption = 'overlay'
     OnChange = CheckBox1Change
+    OnMouseDown = pinMouseDown
     ParentBidiMode = False
     TabOrder = 4
+  end
+  object PopupMenu1: TPopupMenu
+    left = 488
+    top = 252
+    object mnupullresup: TMenuItem
+      Caption = 'New Item1'
+      OnClick = mnupullresupClick
+    end
   end
 end

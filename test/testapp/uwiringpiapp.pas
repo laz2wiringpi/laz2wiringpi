@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls,contnrs;
-
+  ExtCtrls, Menus,contnrs,
+         h2wiringpi;
 type
 
   { TPinShape }
@@ -29,7 +29,7 @@ type
     public
         property PinPhy: integer read FPinPhy ;
         property PinMode: integer read FPinMode write setPinMode ;
-
+        property wire: integer read Fwire ;
 
   end;
 
@@ -44,17 +44,28 @@ type
     CheckBox1: TCheckBox;
     Image1: TImage;
     lblpinstatus: TStaticText;
+    mnupullresup: TMenuItem;
+    PopupMenu1: TPopupMenu;
     StaticText1: TStaticText;
     lblreadpin: TStaticText;
 
     procedure Button1Click(Sender: TObject);
     procedure CheckBox1Change(Sender: TObject);
+    procedure mnupullresupClick(Sender: TObject);
+       procedure mnupullresNoneClick(Sender: TObject);
+           procedure mnupullresDownClick(Sender: TObject);
+     procedure pinMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure ShapeMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
   private
     { private declarations }
     wiringPiSetupdone : boolean;
+    procedure dopullUpDnControl(wire: integer; valuse: TpullRisistor);
+    procedure dorefreshALL();
+
+
 
     private
      pinshapes : tobjectlist;
@@ -70,7 +81,7 @@ implementation
 {$R *.lfm}
 
 { TfrmWiringpiapp }
- uses h2wiringpi;
+
 
 
 
@@ -213,8 +224,7 @@ begin
        StaticText1.Caption := ' PIN  ?';
    end;
 end;
-
-procedure TfrmWiringpiapp.Button1Click(Sender: TObject);
+procedure TfrmWiringpiapp.dorefreshALL();
 var
   cnt :integer ;
 
@@ -239,9 +249,133 @@ begin
 
 end;
 
+
+procedure TfrmWiringpiapp.Button1Click(Sender: TObject);
+
+
+begin
+  dorefreshALL;
+
+
+end;
+
 procedure TfrmWiringpiapp.CheckBox1Change(Sender: TObject);
 begin
   Image1.Visible := CheckBox1.Checked  ;
+end;
+
+procedure TfrmWiringpiapp.dopullUpDnControl(wire : integer ; valuse : TpullRisistor   );
+begin
+  if wiringPiSetupdone then
+  begin
+      pullUpDnControl_pas(wire, valuse);
+  end;
+
+   dorefreshALL;
+
+end;
+
+procedure TfrmWiringpiapp.mnupullresupClick(Sender: TObject);
+var
+  awire : Integer ;
+begin
+   if sender is TMenuItem then
+   begin
+         if TMenuItem ( Sender).Owner is TPopupMenu then
+         begin
+               awire := TPopupMenu (TMenuItem ( Sender).Owner).tag;
+
+                dopullUpDnControl(awire,prPUD_UP  );
+              // showmessage(inttostr(awire))
+         end;
+   end;
+end;
+
+procedure TfrmWiringpiapp.mnupullresDownClick(Sender: TObject);
+var
+  awire : Integer ;
+begin
+   if sender is TMenuItem then
+   begin
+         if TMenuItem ( Sender).Owner is TPopupMenu then
+         begin
+               awire := TPopupMenu (TMenuItem ( Sender).Owner).tag;
+
+                dopullUpDnControl(awire,prPUD_DOWN   );
+              // showmessage(inttostr(awire))
+         end;
+   end;
+end;
+
+procedure TfrmWiringpiapp.mnupullresNoneClick(Sender: TObject);
+var
+  awire : Integer ;
+begin
+   if sender is TMenuItem then
+   begin
+         if TMenuItem ( Sender).Owner is TPopupMenu then
+         begin
+               awire := TPopupMenu (TMenuItem ( Sender).Owner).tag;
+
+                dopullUpDnControl(awire,prPUD_OFF   );
+              // showmessage(inttostr(awire))
+         end;
+   end;
+end;
+
+
+
+
+
+
+
+
+procedure TfrmWiringpiapp.pinMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  tmp : TMenuItem ;
+begin
+
+  if button = mbRight  then
+  begin
+    // if  PopupMenu1 .Items.Count < 2 then
+     // begin
+
+         PopupMenu1.Items.Clear ;
+
+         tmp := TMenuItem.Create(PopupMenu1)  ;
+         tmp.caption := 'Resitor Pull UP';
+          tmp.OnClick := @mnupullresupClick;
+         PopupMenu1.Items.Add(tmp);
+
+          tmp := TMenuItem.Create(PopupMenu1)  ;
+         tmp.caption := 'Resitor Pull DOWN';
+            tmp.OnClick := @mnupullresdownClick;
+         PopupMenu1.Items.Add(tmp);
+
+          tmp := TMenuItem.Create(PopupMenu1)  ;
+         tmp.caption := 'Resitor Pull NONE';
+             tmp.OnClick := @mnupullresnoneClick;
+         PopupMenu1.Items.Add(tmp);
+
+
+      //   end;
+
+    if sender is TPinShape then
+    begin
+        if  TPinShape(sender).wire >= 0 then
+        begin
+       PopupMenu1.Tag := TPinShape(sender).wire  ;
+       PopupMenu1.PopUp (x,y ) ;
+       end
+         else
+         PopupMenu1.Tag := -2;
+
+     end;
+
+  end;
+
+
 end;
 
 procedure TfrmWiringpiapp.FormCreate(Sender: TObject);
@@ -252,6 +386,9 @@ var
 begin
   Inherited;
   pinshapes := tobjectlist.create(false);
+      PopupMenu1.items.Clear   ;
+
+    CheckBox1.PopupMenu := PopupMenu1  ; // tetsing
 
   for cnt := 1 to 40    do
   begin
@@ -270,9 +407,13 @@ begin
           pinshape.left := 285 ;
             pinshape.Top:= ((cnt-1)  * 12) + 50 ;
      end;
+        pinshape.OnMouseDown := @pinMouseDown;
 
 
      pinshape.OnMouseMove  := @ShapeMouseMove  ;
+
+
+
      pinshapes.Add(pinshape);
 
 
