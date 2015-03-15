@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1" Active="Default">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
+    </RunParams>
+    <Units Count="3">
+      <Unit0>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="testwiringpiI2c"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="17"/>
+        <CursorPos X="67" Y="49"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="../../h2wiringpii2c.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="h2wiringpiI2c"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="16"/>
+        <CursorPos X="1" Y="45"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="../../h2wiringpi.pas"/>
+        <UnitName Value="h2wiringpi"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="293"/>
+        <CursorPos X="44" Y="239"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit2>
+    </Units>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="13" Column="64" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="27" Column="15" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="29" Column="10" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="37" Column="27" TopLine="2"/>
+      </Position4>
+      <Position5>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="54" Column="1" TopLine="2"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../../h2wiringpii2c.pas"/>
+        <Caret Line="49" Column="50" TopLine="7"/>
+      </Position6>
+      <Position7>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="10" Column="38" TopLine="2"/>
+      </Position7>
+      <Position8>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="49" Column="55" TopLine="28"/>
+      </Position8>
+      <Position9>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="45" Column="53" TopLine="15"/>
+      </Position9>
+      <Position10>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="46" Column="56" TopLine="15"/>
+      </Position10>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="9"/>
+    <Target>
+      <Filename Value="testwiringpiI2c"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../.."/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
