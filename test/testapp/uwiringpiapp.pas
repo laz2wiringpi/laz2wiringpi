@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls;
+  ExtCtrls,contnrs;
 
 type
 
@@ -30,7 +30,9 @@ type
   TfrmWiringpiapp = class(TForm)
     Button1: TButton;
     Image1: TImage;
+    Shape1: TShape;
     StaticText1: TStaticText;
+    lblreadpin: TStaticText;
 
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -38,7 +40,10 @@ type
       );
   private
     { private declarations }
+    wiringPiSetupdone : boolean;
     procedure dopin(pin : longint );
+    private
+     pinshapes : tobjectlist;
   public
     { public declarations }
   end; 
@@ -97,6 +102,15 @@ begin
          StaticText1.Caption := 'PIN ' + inttostr(aPinPhy) +
          ' Wire ' + stringwire ;
 
+         if wiringPiSetupdone then
+         if PI_2_Phy_toWire[aPinPhy] >= 0  then
+         begin
+               // read the value ..
+               lblreadpin.caption := 'value : ' + inttostr(digitalRead(PI_2_Phy_toWire[aPinPhy] ) ) ;
+         end else
+         begin
+              lblreadpin.caption := '' ;
+         end;
 
    end
    ELSE
@@ -106,10 +120,39 @@ begin
 end;
 
 procedure TfrmWiringpiapp.Button1Click(Sender: TObject);
+var
+  cnt :integer ;
+
 begin
-      if wiringPiSetup = -1
-    then
-    ShowMessage('Run as root ') ;
+   try
+       // crash if not root no way to detect ..
+        if not wiringPiSetupdone then
+       wiringPiSetup ;
+    except
+       ShowMessage(' wiringPiSetup Run as root ') ;
+    end;
+
+     wiringPiSetupdone := true;
+     for cnt := 1 to 40 do
+     begin
+         if PI_2_Phy_toWire[cnt] >= 0  then
+         begin
+               // read the value ..
+               if digitalRead(PI_2_Phy_toWire[cnt ]) = 1 then
+               begin
+                 TPinShape(pinshapes[cnt -1]).Brush.Color  := clred   ;
+
+               end
+
+               else
+               begin
+                    TPinShape(pinshapes[cnt -1]).Brush.Color  := clWhite   ;
+               end;
+
+               //lblreadpin.caption := 'value : ' + inttostr(digitalRead(PI_2_Phy_toWire[aPinPhy] ) ) ;
+         end;
+     end;
+
 end;
 
 procedure TfrmWiringpiapp.FormCreate(Sender: TObject);
@@ -119,6 +162,8 @@ var
 
 begin
   Inherited;
+  pinshapes := tobjectlist.create(false);
+
   for cnt := 1 to 40    do
   begin
 
@@ -139,6 +184,9 @@ begin
 
 
      pinshape.OnMouseMove  := @ShapeMouseMove  ;
+     pinshapes.Add(pinshape);
+
+
   end ;
 
 

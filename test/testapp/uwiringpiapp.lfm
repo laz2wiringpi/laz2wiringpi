@@ -5862,12 +5862,25 @@ object frmWiringpiapp: TfrmWiringpiapp
     TabOrder = 0
   end
   object Button1: TButton
-    Left = 374
+    Left = 360
     Height = 42
-    Top = 146
-    Width = 87
-    Caption = 'Button1'
+    Top = 8
+    Width = 175
+    Caption = 'Refresh values (root)'
     OnClick = Button1Click
     TabOrder = 1
+  end
+  object lblreadpin: TStaticText
+    Left = 368
+    Height = 28
+    Top = 96
+    Width = 312
+    TabOrder = 2
+  end
+  object Shape1: TShape
+    Left = 398
+    Height = 65
+    Top = 162
+    Width = 65
   end
 end
