@@ -2,10 +2,10 @@ object frmWiringpiapp: TfrmWiringpiapp
   Left = 237
   Height = 626
   Top = 75
-  Width = 701
+  Width = 763
   Caption = 'frmWiringpiapp'
   ClientHeight = 626
-  ClientWidth = 701
+  ClientWidth = 763
   OnCreate = FormCreate
   OnMouseMove = ShapeMouseMove
   LCLVersion = '0.9.30.4'
@@ -5852,9 +5852,10 @@ object frmWiringpiapp: TfrmWiringpiapp
     }
     Proportional = True
     Stretch = True
+    Visible = False
   end
   object StaticText1: TStaticText
-    Left = 368
+    Left = 432
     Height = 28
     Top = 64
     Width = 312
@@ -5871,16 +5872,28 @@ object frmWiringpiapp: TfrmWiringpiapp
     TabOrder = 1
   end
   object lblreadpin: TStaticText
-    Left = 368
+    Left = 432
     Height = 28
     Top = 96
     Width = 312
     TabOrder = 2
   end
-  object Shape1: TShape
-    Left = 398
-    Height = 65
-    Top = 162
-    Width = 65
+  object lblpinstatus: TStaticText
+    Left = 424
+    Height = 28
+    Top = 128
+    Width = 312
+    TabOrder = 3
+  end
+  object CheckBox1: TCheckBox
+    Left = 424
+    Height = 22
+    Top = 160
+    Width = 64
+    BidiMode = bdRightToLeft
+    Caption = 'overlay'
+    OnChange = CheckBox1Change
+    ParentBidiMode = False
+    TabOrder = 4
   end
 end
