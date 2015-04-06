@@ -21,15 +21,23 @@ type
 
 { wiringpiI2CTest }
 
+
+
+
 procedure wiringpiI2CTest.DoRun;
 var
 
   fh_MCP4725 : longint ;
+  outvalue  :  longint ;
+
 
 CONST
   IC2C_DEV_MCP4725 = $62 ;     // 62 and 63 .. jumper only 2
   MCP4725_REG_WRITEDAC = $40;
   MCP4725_REG_WRITEDAC_EPROM = $60;
+
+
+
 
 CONST IC2C_DEV_ADS_1015=  $48 ; // $48
 begin
@@ -47,10 +55,21 @@ begin
    while true do
 
    begin
-        wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,0);
-     Sleep(100);
-     wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,$FFFFFFFFF);
-      Sleep(100);
+     for outvalue :=  1 to 512 do
+        begin
+            wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,outvalue * 4  );
+            sleep (200);
+        end;
+
+         for outvalue :=  512 downto 1 do
+        begin
+            wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,outvalue * 4  );
+        end;
+
+     //   wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,0);
+
+   //  wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,$FFFFFFFFF);
+
    end;
 
      // dummy loop

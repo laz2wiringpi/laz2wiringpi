@@ -1,0 +1,21 @@
+object Form1: TForm1
+  Left = 349
+  Height = 240
+  Top = 356
+  Width = 320
+  Caption = 'Form1'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  LCLVersion = '0.9.30.4'
+  object TrackBar1: TTrackBar
+    Left = 33
+    Height = 62
+    Top = 58
+    Width = 270
+    Max = 4095
+    OnChange = TrackBar1Change
+    Position = 0
+    TabOrder = 0
+  end
+end
