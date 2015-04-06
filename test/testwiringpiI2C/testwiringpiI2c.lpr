@@ -24,29 +24,42 @@ type
 procedure wiringpiI2CTest.DoRun;
 var
 
-  fh : longint ;
-  tmpreg :longint  = 1;
-  tmpdata :longint  = 2;
+  fh_MCP4725 : longint ;
+
+CONST
+  IC2C_DEV_MCP4725 = $62 ;     // 62 and 63 .. jumper only 2
+  MCP4725_REG_WRITEDAC = $40;
+  MCP4725_REG_WRITEDAC_EPROM = $60;
+
+CONST IC2C_DEV_ADS_1015=  $48 ; // $48
 begin
 
   { add your program here }
 
   // test of the wire I2C wrapper
 
-  fh := wiringPiI2CSetup(32); // hex 20
-  if fh = -1 then
+  fh_MCP4725 := wiringPiI2CSetup(IC2C_DEV_MCP4725); // hex 20
+  if fh_MCP4725 = -1 then
       writeln('-1 on wiringPiI2CSetup 20 ');
-        writeln( IntToStr (fh));
-//   while true do
+        writeln( IntToStr (fh_MCP4725));
+
+   // test loop
+   while true do
 
    begin
+        wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,0);
+     Sleep(100);
+     wiringPiI2CWriteReg16 (fh_MCP4725,MCP4725_REG_WRITEDAC,$FFFFFFFFF);
+      Sleep(100);
+   end;
+
      // dummy loop
-  writeln (inttostr(  wiringPiI2CRead(fh)));
-  writeln (inttostr(  wiringPiI2CReadReg8(fh,tmpreg )));
-   writeln (inttostr(  wiringPiI2CReadReg16(fh,tmpreg )));
-     writeln (inttostr(  wiringPiI2CWrite (fh ,tmpdata)));
-  writeln (inttostr(  wiringPiI2CWriteReg8 (fh,tmpreg ,tmpdata)));
-   writeln (inttostr(  wiringPiI2CWriteReg16 (fh,tmpreg ,tmpdata)));
+ // writeln (inttostr(  wiringPiI2CRead(fh)));
+//  writeln (inttostr(  wiringPiI2CReadReg8(fh,tmpreg )));
+ //  writeln (inttostr(  wiringPiI2CReadReg16(fh,tmpreg )));
+  //   writeln (inttostr(  wiringPiI2CWrite (fh ,tmpdata)));
+ // writeln (inttostr(  wiringPiI2CWriteReg8 (fh,tmpreg ,tmpdata)));
+ //  writeln (inttostr(  wiringPiI2CWriteReg16 (fh,tmpreg ,tmpdata)));
      {
     //extern int wiringPiI2CRead           (int fd) ;
 Function wiringPiI2CRead(fd : longint ):longint;cdecl;external;
@@ -68,7 +81,7 @@ Function wiringPiI2CWriteReg16(fd : longint;reg : longint ;data : longint ):long
       }
       // veify dummy link code ..
 
-   end;
+ //  end;
 
   // stop program loop
   Terminate;

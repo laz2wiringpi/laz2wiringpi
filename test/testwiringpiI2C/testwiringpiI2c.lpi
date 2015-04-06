@@ -39,9 +39,9 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="17"/>
-        <CursorPos X="67" Y="49"/>
-        <UsageCount Value="21"/>
+        <TopLine Value="15"/>
+        <CursorPos X="26" Y="56"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -52,7 +52,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="16"/>
         <CursorPos X="1" Y="45"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
@@ -62,11 +62,11 @@
         <WindowIndex Value="0"/>
         <TopLine Value="293"/>
         <CursorPos X="44" Y="239"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit2>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="12" HistoryIndex="11">
       <Position1>
         <Filename Value="testwiringpiI2c.lpr"/>
         <Caret Line="13" Column="64" TopLine="1"/>
@@ -107,6 +107,14 @@
         <Filename Value="testwiringpiI2c.lpr"/>
         <Caret Line="46" Column="56" TopLine="15"/>
       </Position10>
+      <Position11>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="48" Column="44" TopLine="1"/>
+      </Position11>
+      <Position12>
+        <Filename Value="testwiringpiI2c.lpr"/>
+        <Caret Line="55" Column="31" TopLine="1"/>
+      </Position12>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

@@ -51,6 +51,7 @@ type
 
     procedure Button1Click(Sender: TObject);
     procedure CheckBox1Change(Sender: TObject);
+
     procedure mnupullresupClick(Sender: TObject);
        procedure mnupullresNoneClick(Sender: TObject);
            procedure mnupullresDownClick(Sender: TObject);
@@ -64,6 +65,7 @@ type
     wiringPiSetupdone : boolean;
     procedure dopullUpDnControl(wire: integer; valuse: TpullRisistor);
     procedure dorefreshALL();
+    procedure pinCheckBox1Change(Sender: TObject);
 
 
 
@@ -124,6 +126,9 @@ begin
       Enabled := true;
       caption := 'UKN';
       PinMode := -2;
+      fwire := -2;
+
+
 
 
 
@@ -159,20 +164,14 @@ begin
          end
          else
           // other
+          begin
            PinMode  := Fwire;
-  ////
- // if odd(FPinPhy) then
- // begin
- //       BiDiMode := bdLeftToRight ;
- //       caption :=  format( '%5s %-4s %3d',[   Fstrwire,Fstrpinmode ,FPinPhy ])  ;
 
- // end
- // else
- // begin
- //         BiDiMode := bdLeftToRight  ;
+          end;
+
+
         caption :=  format('%3d %-4s %5s',[ FPinPhy, Fstrpinmode ,Fstrwire ])  ;
- //       //caption :=  IntToStr(FPinPhy) +  ' '  +  Fstrpinmode  +  ' '  + Fstrwire   ;
- // end;
+
 
 
 end;
@@ -245,6 +244,8 @@ begin
 
 
           TPinShape(pinshapes[cnt -1]).refreshwire();
+
+
      end;
 
 end;
@@ -259,16 +260,70 @@ begin
 
 end;
 
+
+procedure TfrmWiringpiapp.pinCheckBox1Change(Sender: TObject);
+var
+  awire : longint;
+
+begin
+
+
+  if sender is TPinShape then
+  begin
+
+
+        awire := TPinShape ( sender).wire;
+     if awire > -1 then
+     begin
+         {       ops /// loop
+         case   TPinShape ( sender).PinMode of
+           0: // INPUT
+           if      digitalRead(awire) = 0 then
+                pullUpDnControl_pas(awire, prPUD_UP )
+           else
+               pullUpDnControl_pas(awire, prPUD_DOWN  );
+
+
+            1: // OUT
+           if      digitalRead(awire) = 0 then
+                 digitalWrite(awire,1  )
+
+           else
+               digitalWrite(awire,0  )  ;
+        end;
+
+         //  dorefreshALL;
+          }
+     end
+     else
+
+
+         if TPinShape ( sender).Checked then
+             TPinShape ( sender).Checked := false;
+     end;
+
+
+
+
+
+end;
+
+
 procedure TfrmWiringpiapp.CheckBox1Change(Sender: TObject);
 begin
-  Image1.Visible := CheckBox1.Checked  ;
+
+
+   Image1.Visible := CheckBox1.Checked  ;
 end;
+
+
 
 procedure TfrmWiringpiapp.dopullUpDnControl(wire : integer ; valuse : TpullRisistor   );
 begin
   if wiringPiSetupdone then
   begin
       pullUpDnControl_pas(wire, valuse);
+
   end;
 
    dorefreshALL;
@@ -411,7 +466,7 @@ begin
 
 
      pinshape.OnMouseMove  := @ShapeMouseMove  ;
-
+       pinshape .OnChange :=  @pinCheckBox1Change;
 
 
      pinshapes.Add(pinshape);
