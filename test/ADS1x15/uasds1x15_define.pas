@@ -32,6 +32,9 @@ interface
 
 #include <Wire.h>
       }
+ uses
+  Classes, SysUtils ;
+
  CONST
 {/*=========================================================================
     I2C ADDRESS/BITS
@@ -129,6 +132,8 @@ TADS1015channel = ( A0,A1,A2,A3);
 
 { TAdafruit_ADS1015 }
 
+{ TADS1015 }
+
 TADS1015 = class
 
 
@@ -145,7 +150,8 @@ Private
 
  public
        constructor Create     (  i2cAddress : byte  = ADS1015_ADDRESS);
-       function readADC_SingleEnded(channel: TADS1015channel): smallint;
+       function readADC_SingleEnded(channel: TADS1015channel): integer;
+       function readADC_config(): integer;
    {
   void begin(void);
   uint16_t  readADC_SingleEnded(uint8_t channel);
@@ -212,7 +218,7 @@ begin
 /**************************************************************************/
 
 }
- function  TADS1015.readADC_SingleEnded(  channel : TADS1015channel  ) : SmallInt ;
+ function  TADS1015.readADC_SingleEnded(  channel : TADS1015channel  ) : integer ;
  var
   config : integer   ;
 
@@ -227,7 +233,10 @@ begin
                     ADS1015_REG_CONFIG_DR_1600SPS   OR  // 1600 samples per second (default)
                     ADS1015_REG_CONFIG_MODE_SINGLE);   // Single-shot mode (default)
 
-    config := config OR ord(Fgain);
+
+
+     config := 34179;
+       config := (config OR $200);
     case channel of
     A0 : config :=  (config OR  ADS1015_REG_CONFIG_MUX_SINGLE_0);
 
@@ -241,19 +250,29 @@ begin
     end;
 
      config :=  (config OR  ADS1015_REG_CONFIG_OS_SINGLE);
+  //  config := 34179;
 
      if fh = 0 then
     fh :=  wiringPiI2CSetup(Fi2cAddress) ;
 
      wiringPiI2CWriteReg16( fh ,ADS1015_REG_POINTER_CONFIG ,config ) ;
 
-     delayMicroseconds (FconversionDelay);
+     sleep   (1000);
 
 
-     result :=     wiringPiI2CReadReg16 ( fh ,ADS1015_REG_POINTER_CONVERT  ) ;
+     result :=   (  wiringPiI2CReadReg16 ( fh ,ADS1015_REG_POINTER_CONVERT  )   ) ;
 
 
 
+ end;
+
+  function TADS1015.readADC_config(): integer;
+ begin
+       if fh = 0 then
+    fh :=  wiringPiI2CSetup(Fi2cAddress) ;
+
+
+     result :=   (  wiringPiI2CReadReg16 ( fh ,ADS1015_REG_POINTER_CONFIG  )   ) ;
  end;
 
   {
